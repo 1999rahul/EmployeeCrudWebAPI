@@ -32,6 +32,7 @@ namespace EmployeeCrud.WebAPI
             IMapper mapper = mappingConfig.CreateMapper();
             builder.Services.AddSingleton(mapper);
             builder.Services.AddTransient<IEmployeeService, EmployeeService>();
+            builder.Services.AddTransient<IAuthService, AuthService>();
             builder.Services.AddSingleton<IConnection, Connection.Connection>();
             builder.Services.AddDbContext<EmployeeDBContext>(opts =>
         opts.UseSqlServer("Server= DESKTOP-JQ923B7\\SQLEXPRESS; Database=EmployeeDB; Trusted_Connection=True;Encrypt=False;TrustServerCertificate=True; Integrated Security=True;"));
