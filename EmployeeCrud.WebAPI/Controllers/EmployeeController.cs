@@ -1,7 +1,10 @@
-﻿using EmployeeCrud.Services.Iservices;
+﻿using EmployeeCrud.Data;
+using EmployeeCrud.Domain.Models;
+using EmployeeCrud.Services.Iservices;
 using EmployeeCrud.Services.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeCrud.WebAPI.Controllers
 {
@@ -10,15 +13,18 @@ namespace EmployeeCrud.WebAPI.Controllers
     public class EmployeeController : ControllerBase
     {
         public IEmployeeService employeeService;
-        public EmployeeController(IEmployeeService employeeService)
+        public EmployeeDBContext _context;
+        public EmployeeController(IEmployeeService employeeService, EmployeeDBContext context)
         {
             this.employeeService = employeeService;
+            _context = context;
         }
         [HttpGet("GetEmployee/{id}")]
         public IActionResult getEmployee(int id)
         {
             var response = employeeService.GetEmployee(id);
             return Ok(response);
+
         }
         [HttpGet("GeAllEmployee")]
         public IActionResult GeAllEmployee()

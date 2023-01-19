@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EmployeeCrud.Data;
 using EmployeeCrud.Data.UnitOfWorks;
 using EmployeeCrud.Domain.IConnection;
 using EmployeeCrud.Domain.IUnitOfWorks;
@@ -18,14 +19,16 @@ namespace EmployeeCrud.Services.Services
     {
         IMapper _mapper;
         string connString;
-        public EmployeeService(IMapper mapper,IConnection conn)
+        EmployeeDBContext _context;
+        public EmployeeService(IMapper mapper,IConnection conn, EmployeeDBContext context)
         {
             _mapper = mapper;
             connString = conn.GetConnectionString();
+            _context = context;
         }
         public Result<EmployeeVM> DeleteEmployee(int id)
         {
-            using (DapUnitOfWork _unitOfWork = new DapUnitOfWork(connString))
+            using (UnitOfWork _unitOfWork = new UnitOfWork(_context))
             {
                 var res=_unitOfWork.EmployeeRepository.DeleteEmployee(id);
                 if (res)
@@ -38,25 +41,24 @@ namespace EmployeeCrud.Services.Services
 
         public Result<IEnumerable<EmployeeVM>> GetAllEmployees()
         {
-            using(DapUnitOfWork _unitOfWork =new DapUnitOfWork(connString))
+            using (UnitOfWork _unitOfWork = new UnitOfWork(_context))
             {
-                var res=_mapper.Map<IEnumerable<EmployeeVM>>(_unitOfWork.EmployeeRepository.GetAllEmployee());
+                var res = _mapper.Map<IEnumerable<EmployeeVM>>(_unitOfWork.EmployeeRepository.GetAllEmployee());
                 return Result<IEnumerable<EmployeeVM>>.Success(res);
             }
         }
 
         public Result<EmployeeVM> GetEmployee(int id)
         {
-            using (DapUnitOfWork _unitOfWork = new DapUnitOfWork(connString))
+            using (UnitOfWork _unitOfWork = new UnitOfWork(_context))
             {
                 var res=_mapper.Map<EmployeeVM>(_unitOfWork.EmployeeRepository.GetEmployee(id));
                 return Result<EmployeeVM>.Success(res);
             }
         }
-
         public Result<EmployeeVM> PostEmployee(EmployeeVM employee)
         {
-            using (DapUnitOfWork _unitOfWork = new DapUnitOfWork(connString))
+            using (UnitOfWork _unitOfWork = new UnitOfWork(_context))
             {
                 var res = _mapper.Map<EmployeeVM>(_unitOfWork.EmployeeRepository.PostEmployee(_mapper.Map<Employee>(employee)));
                 return Result<EmployeeVM>.Success(res);
@@ -65,7 +67,7 @@ namespace EmployeeCrud.Services.Services
 
         public Result<EmployeeVM> UpdateEmployee(EmployeeVM employee)
         {
-            using (DapUnitOfWork _unitOfWork = new DapUnitOfWork(connString))
+            using (UnitOfWork _unitOfWork = new UnitOfWork(_context))
             {
                 var res = _mapper.Map<EmployeeVM>(_unitOfWork.EmployeeRepository.UpdateEmployee(_mapper.Map<Employee>(employee)));
                 return Result<EmployeeVM>.Success(res);

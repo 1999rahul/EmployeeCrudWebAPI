@@ -1,10 +1,13 @@
 using AutoMapper;
+using EmployeeCrud.Data;
 using EmployeeCrud.Domain.IConnection;
 using EmployeeCrud.Services.Iservices;
 using EmployeeCrud.Services.Mapping;
 using EmployeeCrud.Services.Services;
 using EmployeeCrud.WebAPI.Connection;
 using Microsoft.AspNetCore.Connections;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace EmployeeCrud.WebAPI
 {
@@ -28,8 +31,10 @@ namespace EmployeeCrud.WebAPI
             });
             IMapper mapper = mappingConfig.CreateMapper();
             builder.Services.AddSingleton(mapper);
-            builder.Services.AddSingleton<IEmployeeService, EmployeeService>();
+            builder.Services.AddTransient<IEmployeeService, EmployeeService>();
             builder.Services.AddSingleton<IConnection, Connection.Connection>();
+            builder.Services.AddDbContext<EmployeeDBContext>(opts =>
+        opts.UseSqlServer("Server= DESKTOP-JQ923B7\\SQLEXPRESS; Database=EmployeeDB; Trusted_Connection=True;Encrypt=False;TrustServerCertificate=True; Integrated Security=True;"));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
