@@ -2,6 +2,7 @@
 using EmployeeCrud.Data.UnitOfWorks;
 using EmployeeCrud.Domain.IConnection;
 using EmployeeCrud.Domain.Models;
+using EmployeeCrud.Domain.Models.Wrapper;
 using EmployeeCrud.Services.Iservices;
 using EmployeeCrud.Services.ViewModels;
 using Microsoft.Extensions.Configuration;
@@ -29,7 +30,7 @@ namespace EmployeeCrud.Services.Services
             connString = conn.GetConnectionString();
             _config = config;
         }
-        public UserVM CreateUser(UserDtoVM request)
+        public Result<UserVM> CreateUser(UserDtoVM request)
         {
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
             var userVM = new UserVM()
@@ -44,7 +45,7 @@ namespace EmployeeCrud.Services.Services
             {
                 var user = unitOfWorks.AuthRepository.CreateUser(_mapper.Map<User>(userVM));
                 var res = _mapper.Map<UserVM>(userVM);
-                return res;
+                return Result< UserVM >.Success(res);
             }
         }
 
@@ -57,7 +58,7 @@ namespace EmployeeCrud.Services.Services
             }
         }
 
-        public string Login(UserLoginVM user)
+        public Result<string> Login(UserLoginVM user)
         {
 
 
@@ -67,15 +68,15 @@ namespace EmployeeCrud.Services.Services
 
                 if (!IsValidUser)
                 {
-                    return "Invalid Credintails";
+                    return Result<string>.Success("Invalid Credintails");
                 }
                 var userDetails = _mapper.Map<UserVM>(unitOfWorks.AuthRepository.GetUserDetails(user.UserName));
                 var IsPasswordCorrect = VerifyPasswordHash(user.Password, userDetails.PasswordHash, userDetails.PasswordSalt);//something is wrong, PasswordHash is swapped with PasswordSalt thatswhy passing PasswordHash at the place of passwordSalt and vice versa.
                 if (!IsPasswordCorrect)
                 {
-                    return "Invalid Credintails";
+                    return Result<string>.Success("Invalid Credintails");
                 }
-                return CreateToken(userDetails.UserName);
+                return Result<string>.Success(CreateToken(userDetails.UserName));
             }
 
         }

@@ -1,4 +1,5 @@
-﻿using EmployeeCrud.Services.ViewModels;
+﻿using EmployeeCrud.Domain.Models.Wrapper;
+using EmployeeCrud.Services.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace EmployeeCrud.Services.Iservices
 {
     public interface IAuthService
     {
-        UserVM CreateUser(UserDtoVM user);
-        string Login(UserLoginVM user);
+        Result<UserVM> CreateUser(UserDtoVM user);
+        Result<string> Login(UserLoginVM user);
     }
 }
