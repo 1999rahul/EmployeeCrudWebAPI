@@ -1368,7 +1368,9 @@
         "dependencies": {
           "AutoMapper": "12.0.1",
           "EmployeeCrud.Data": "1.0.0",
-          "EmployeeCrud.Domain": "1.0.0"
+          "EmployeeCrud.Domain": "1.0.0",
+          "Microsoft.IdentityModel.Tokens": "6.21.0",
+          "System.IdentityModel.Tokens.Jwt": "6.21.0"
         },
         "compile": {
           "bin/placeholder/EmployeeCrud.Services.dll": {}

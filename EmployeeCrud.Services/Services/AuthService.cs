@@ -4,9 +4,13 @@ using EmployeeCrud.Domain.IConnection;
 using EmployeeCrud.Domain.Models;
 using EmployeeCrud.Services.Iservices;
 using EmployeeCrud.Services.ViewModels;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,10 +21,13 @@ namespace EmployeeCrud.Services.Services
     {
         IMapper _mapper;
         string connString;
-        public AuthService(IMapper mapper, IConnection conn)
+        IConfiguration _config;
+
+        public AuthService(IMapper mapper, IConnection conn,IConfiguration config)
         {
             _mapper = mapper;
             connString = conn.GetConnectionString();
+            _config = config;
         }
         public UserVM CreateUser(UserDtoVM request)
         {
@@ -68,8 +75,7 @@ namespace EmployeeCrud.Services.Services
                 {
                     return "Invalid Credintails";
                 }
-                return "MY TOKEN";
-
+                return CreateToken(userDetails.UserName);
             }
 
         }
@@ -80,6 +86,26 @@ namespace EmployeeCrud.Services.Services
                 var computedHash=hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
                 return computedHash.SequenceEqual(passwordSalt);
             }
+        }
+        private string CreateToken(string UserName)
+        {
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name,UserName)
+            };
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
+                _config.GetSection("AppSettings:Token").Value));
+
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: creds);
+
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return jwt;
         }
     }
 }
