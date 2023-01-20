@@ -9,6 +9,6 @@ namespace EmployeeCrud.Domain.IRepositories
 {
     public interface IAuthRepository
     {
-        public User CreateUser(UserDto request);
+        public User CreateUser(User request);
     }
 }

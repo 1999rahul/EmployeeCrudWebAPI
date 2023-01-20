@@ -10,5 +10,6 @@ namespace EmployeeCrud.Domain.IUnitOfWorks
     public interface IUnitOfWork
     {
         public IEmployeeRepository EmployeeRepository { get; }
+        public IAuthRepository AuthRepository { get; }
     }
 }

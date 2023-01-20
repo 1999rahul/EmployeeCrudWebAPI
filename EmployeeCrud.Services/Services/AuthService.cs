@@ -1,4 +1,8 @@
-﻿using EmployeeCrud.Services.Iservices;
+﻿using AutoMapper;
+using EmployeeCrud.Data.UnitOfWorks;
+using EmployeeCrud.Domain.IConnection;
+using EmployeeCrud.Domain.Models;
+using EmployeeCrud.Services.Iservices;
 using EmployeeCrud.Services.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -11,15 +15,31 @@ namespace EmployeeCrud.Services.Services
 {
     public class AuthService : IAuthService
     {
+        IMapper _mapper;
+        string connString;
         public static UserVM user=new UserVM();
-        public AuthService() { }
+        public AuthService(IMapper mapper, IConnection conn)
+        {
+            _mapper = mapper;
+            connString = conn.GetConnectionString();
+        }
         public UserVM CreateUser(UserDtoVM request)
         {
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;   
-            user.UserName=request.UserName;
-            return user;
+            var userVM = new UserVM()
+            {
+                FirstName= request.FirstName,
+                LastName= request.LastName,
+                UserName = request.UserName,
+                PasswordSalt = passwordHash,
+                PasswordHash = passwordSalt
+            };
+            using(DapUnitOfWork unitOfWorks=new DapUnitOfWork(connString))
+            {
+                var user = unitOfWorks.AuthRepository.CreateUser(_mapper.Map<User>(userVM));
+                var res=_mapper.Map<UserVM>(userVM);
+                return res;
+            }
         }
 
         private void CreatePasswordHash(string password,out byte[] passwordHash,out byte[] passwordSalt)

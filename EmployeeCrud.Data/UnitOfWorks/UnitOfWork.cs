@@ -13,6 +13,9 @@ namespace EmployeeCrud.Data.UnitOfWorks
     {
         private EmployeeDBContext _context;
         public IEmployeeRepository EmployeeRepository { get; set; }
+
+        public IAuthRepository AuthRepository => throw new NotImplementedException();
+
         public UnitOfWork(EmployeeDBContext context)
         {
             _context = context;

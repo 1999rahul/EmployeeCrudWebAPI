@@ -8,8 +8,10 @@ namespace EmployeeCrud.Services.ViewModels
 {
     public class UserVM
     {
-        public string UserName { get; set; }
-        public byte[] PasswordHash { get; set; }
-        public byte[] PasswordSalt { get; set; }
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+        public string UserName { get; set; } = string.Empty;
+        public byte[] PasswordHash { get; set; } = null!;
+        public byte[] PasswordSalt { get; set; } = null!;
     }
 }

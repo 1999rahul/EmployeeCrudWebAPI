@@ -21,11 +21,20 @@ namespace EmployeeCrud.Data.UnitOfWorks
         }
 
         private IEmployeeRepository _employeeRepository;
+        private IAuthRepository _authRepository;
         public IEmployeeRepository EmployeeRepository
         {
             get
             {
                 return _employeeRepository ?? (_employeeRepository = new EmployeeReopsitory(connection));
+            }
+        }
+
+        public IAuthRepository AuthRepository
+        {
+            get
+            { 
+                return _authRepository ?? (_authRepository = new AuthRepository(connection)); 
             }
         }
 

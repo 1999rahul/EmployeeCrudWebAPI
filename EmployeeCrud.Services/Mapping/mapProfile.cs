@@ -14,6 +14,7 @@ namespace EmployeeCrud.Services.Mapping
         public MapProfile()
         {
             CreateMap<Employee, EmployeeVM>().ReverseMap();
+            CreateMap<UserVM, User>().ReverseMap();
         }
     }
 }
