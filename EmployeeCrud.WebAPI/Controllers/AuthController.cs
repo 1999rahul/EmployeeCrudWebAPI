@@ -21,6 +21,12 @@ namespace EmployeeCrud.WebAPI.Controllers
             var res=_authService.CreateUser(request);
             return Ok(res);
         }
+        [HttpPost("Login")]
+        public IActionResult Login(UserLoginVM request)
+        {
+            var res = _authService.Login(request);
+            return Ok(res);
+        }
 
     }
 }

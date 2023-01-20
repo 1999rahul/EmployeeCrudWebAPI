@@ -10,5 +10,6 @@ namespace EmployeeCrud.Services.Iservices
     public interface IAuthService
     {
         UserVM CreateUser(UserDtoVM user);
+        string Login(UserLoginVM user);
     }
 }

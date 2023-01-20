@@ -10,5 +10,7 @@ namespace EmployeeCrud.Domain.IRepositories
     public interface IAuthRepository
     {
         public User CreateUser(User request);
+        public bool ValidateUser(string user);
+        public User GetUserDetails(string user);
     }
 }
