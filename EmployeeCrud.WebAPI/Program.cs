@@ -5,9 +5,15 @@ using EmployeeCrud.Services.Iservices;
 using EmployeeCrud.Services.Mapping;
 using EmployeeCrud.Services.Services;
 using EmployeeCrud.WebAPI.Connection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Connections;
 using Microsoft.EntityFrameworkCore;
+
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
+using System.Text;
 
 namespace EmployeeCrud.WebAPI
 {
@@ -22,7 +28,19 @@ namespace EmployeeCrud.WebAPI
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                {
+                    Description = "Standard Authorization header using the Bearer scheme (\"bearer {token}\")",
+                    In = ParameterLocation.Header,
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+
+                options.OperationFilter<SecurityRequirementsOperationFilter>();
+            });
 
             var mappingConfig = new MapperConfiguration(mc =>
             {
@@ -31,11 +49,27 @@ namespace EmployeeCrud.WebAPI
             });
             IMapper mapper = mappingConfig.CreateMapper();
             builder.Services.AddSingleton(mapper);
+            
             builder.Services.AddTransient<IEmployeeService, EmployeeService>();
             builder.Services.AddTransient<IAuthService, AuthService>();
+
+
             builder.Services.AddSingleton<IConnection, Connection.Connection>();
             builder.Services.AddDbContext<EmployeeDBContext>(opts =>
-        opts.UseSqlServer("Server= DESKTOP-JQ923B7\\SQLEXPRESS; Database=EmployeeDB; Trusted_Connection=True;Encrypt=False;TrustServerCertificate=True; Integrated Security=True;"));
+        opts.UseSqlServer(builder.Configuration.GetSection("ConnectionStrings:sqlConnection").Value));
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+                .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -46,6 +80,8 @@ namespace EmployeeCrud.WebAPI
             }
 
             app.UseHttpsRedirection();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

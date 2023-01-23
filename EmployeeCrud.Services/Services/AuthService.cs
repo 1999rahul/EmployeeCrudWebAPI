@@ -60,8 +60,6 @@ namespace EmployeeCrud.Services.Services
 
         public Result<string> Login(UserLoginVM user)
         {
-
-
             using (DapUnitOfWork unitOfWorks = new DapUnitOfWork(connString))
             {
                 var IsValidUser = unitOfWorks.AuthRepository.ValidateUser(user.UserName);
@@ -76,7 +74,10 @@ namespace EmployeeCrud.Services.Services
                 {
                     return Result<string>.Success("Invalid Credintails");
                 }
-                return Result<string>.Success(CreateToken(userDetails.UserName));
+                var res = new Result<string>();
+                res.Data = CreateToken(userDetails.UserName);
+                res.Messages = new List<string>() { "Token Received" };
+                return res;
             }
 
         }

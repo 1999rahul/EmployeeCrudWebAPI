@@ -2,6 +2,7 @@
 using EmployeeCrud.Domain.Models;
 using EmployeeCrud.Services.Iservices;
 using EmployeeCrud.Services.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ namespace EmployeeCrud.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class EmployeeController : ControllerBase
     {
         public IEmployeeService employeeService;
