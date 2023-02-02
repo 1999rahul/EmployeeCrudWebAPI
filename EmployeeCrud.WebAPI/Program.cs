@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Connections;
 using Microsoft.EntityFrameworkCore;
 
 using Microsoft.Extensions.Configuration;
+using Microsoft.Identity.Web;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -26,6 +27,9 @@ namespace EmployeeCrud.WebAPI
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddMicrosoftIdentityWebApiAuthentication(builder.Configuration);
+            builder.Services.AddAuthentication();
+            builder.Services.AddAuthorization();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             
@@ -58,7 +62,7 @@ namespace EmployeeCrud.WebAPI
             builder.Services.AddDbContext<EmployeeDBContext>(opts =>
         opts.UseSqlServer(builder.Configuration.GetSection("ConnectionStrings:sqlConnection").Value));
 
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            /*builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
@@ -69,7 +73,7 @@ namespace EmployeeCrud.WebAPI
             ValidateIssuer = false,
             ValidateAudience = false
         };
-    });
+    });*/
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -78,6 +82,7 @@ namespace EmployeeCrud.WebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseHttpsRedirection();
 

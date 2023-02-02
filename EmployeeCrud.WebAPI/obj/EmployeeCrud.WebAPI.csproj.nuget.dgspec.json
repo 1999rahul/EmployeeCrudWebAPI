@@ -276,6 +276,10 @@
               "target": "Package",
               "version": "[7.0.2, )"
             },
+            "Microsoft.Identity.Web": {
+              "target": "Package",
+              "version": "[1.25.10, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"

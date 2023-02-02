@@ -103,3 +103,15 @@ C:\Users\rahul\Desktop\C#Playground\EmployeeCrud.WebAPI\EmployeeCrud.WebAPI\bin\
 C:\Users\rahul\Desktop\C#Playground\EmployeeCrud.WebAPI\EmployeeCrud.WebAPI\bin\Debug\net6.0\Scrutor.dll
 C:\Users\rahul\Desktop\C#Playground\EmployeeCrud.WebAPI\EmployeeCrud.WebAPI\bin\Debug\net6.0\Swashbuckle.AspNetCore.Filters.dll
 C:\Users\rahul\Desktop\C#Playground\EmployeeCrud.WebAPI\EmployeeCrud.WebAPI\bin\Debug\net6.0\Swashbuckle.AspNetCore.Filters.Abstractions.dll
+C:\Users\rahul\Desktop\C#Playground\EmployeeCrud.WebAPI\EmployeeCrud.WebAPI\bin\Debug\net6.0\Azure.Security.KeyVault.Certificates.dll
+C:\Users\rahul\Desktop\C#Playground\EmployeeCrud.WebAPI\EmployeeCrud.WebAPI\bin\Debug\net6.0\Azure.Security.KeyVault.Secrets.dll
+C:\Users\rahul\Desktop\C#Playground\EmployeeCrud.WebAPI\EmployeeCrud.WebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
+C:\Users\rahul\Desktop\C#Playground\EmployeeCrud.WebAPI\EmployeeCrud.WebAPI\bin\Debug\net6.0\Microsoft.Identity.Web.dll
+C:\Users\rahul\Desktop\C#Playground\EmployeeCrud.WebAPI\EmployeeCrud.WebAPI\bin\Debug\net6.0\Microsoft.Identity.Web.Certificate.dll
+C:\Users\rahul\Desktop\C#Playground\EmployeeCrud.WebAPI\EmployeeCrud.WebAPI\bin\Debug\net6.0\Microsoft.Identity.Web.Certificateless.dll
+C:\Users\rahul\Desktop\C#Playground\EmployeeCrud.WebAPI\EmployeeCrud.WebAPI\bin\Debug\net6.0\Microsoft.Identity.Web.TokenCache.dll
+C:\Users\rahul\Desktop\C#Playground\EmployeeCrud.WebAPI\EmployeeCrud.WebAPI\bin\Debug\net6.0\Microsoft.IdentityModel.LoggingExtensions.dll
+C:\Users\rahul\Desktop\C#Playground\EmployeeCrud.WebAPI\EmployeeCrud.WebAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Validators.dll
+C:\Users\rahul\Desktop\C#Playground\EmployeeCrud.WebAPI\EmployeeCrud.WebAPI\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\rahul\Desktop\C#Playground\EmployeeCrud.WebAPI\EmployeeCrud.WebAPI\bin\Debug\net6.0\System.Security.Cryptography.Xml.dll
+C:\Users\rahul\Desktop\C#Playground\EmployeeCrud.WebAPI\EmployeeCrud.WebAPI\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll

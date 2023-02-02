@@ -40,8 +40,6 @@ namespace EmployeeCrud.Data.Reopsitories.DapperRepository
             connection.Execute("spValidateUser", parameters, commandType: CommandType.StoredProcedure);
             var res = parameters.Get<Boolean>("@IsValidUser");
             return res;
-        }
-
-        
+        } 
     }
 }
